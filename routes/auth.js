@@ -4,14 +4,19 @@ const router = express.Router();
 import User from "../models/User.js";
 
 //REGISTER
-router.get("/register", (req, res) => {
-    const user = new User({
-        username:"tadas",
-        email:"tadas@gmail.com",
-        password:"123456"
-    })
+router.post("/register", async (req, res) => {
+   const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+   });
 
-    user.save()
+   try{
+    const user = await newUser.save();
+    res.status(200).json(user);
+   } catch(err){
+        console.log(err)
+   }
 })
 
 
